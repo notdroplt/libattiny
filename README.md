@@ -4,7 +4,7 @@ A header only library focused in compiler-time optimizations, trying to implemen
   
 the library is being developed and tested in the [ATtiny13A](https://ww1.microchip.com/downloads/en/DeviceDoc/ATtiny13A-Data-Sheet-DS40002307A.pdf)
 
-### [`lib/functions`](./lib/functions/): Arduino-core implementation, under the namespace `attiny::`
-### [`lib/types`](./lib/types/): freestanding libc++ implementation, under the namespace `tinystd::`
+### [`lib/functions`](./lib/ATtiny13A/functions/): Arduino-core implementation, under the namespace `attiny::`
+### [`lib/types`](./lib/ATtiny13A/types/): freestanding libc++ implementation, under the namespace `tinystd::`
 
 this code is licensed under the [MIT LICENSE](LICENSE)
