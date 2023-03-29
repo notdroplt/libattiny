@@ -17,22 +17,42 @@ namespace tinystd {
 	 */
 	template<class T, T v>
 	struct integral_constant {
-		using value_type = T; 
+		using value_type = T;  //!< type of constant
 		using type = integral_constant; //!< using injected-class-name
 
 		static constexpr T value = v; //!< defines a member for the value-type
+
+		/**
+		 * @brief cast-to-type operator for T
+		 * 
+		 * @return value_type constant value
+		 */
 		constexpr operator value_type() const noexcept { return value; }
+
+		/**
+		 * @brief call operator for constant
+		 * 
+		 * @return value_type constant value
+		 */
 		constexpr value_type operator()() const noexcept { return value; } // C++14 
 	};
 
-	/* especialization of integral_constant for boolean types */
+	/*!< especialization of integral_constant for boolean types */
 	template<bool B> using bool_constant = integral_constant<bool, B>;
 
-	
+	/*!< true type bool_constant specialization */
 	using true_type = bool_constant<true>;
+	/*!< false type bool_constant specialization */
 	using false_type = bool_constant<false>;
 
+	using nullptr_t = void *;	
+	/*
 	
+	i honestly don't know how anything past this point works 
+	
+	*/
+
+
 	template<class T> struct type_identity { using type = T; };
 	template<class T, class U> struct is_same : false_type {};
 	template<class T> struct is_same<T, T> : true_type {};
@@ -87,14 +107,23 @@ namespace tinystd {
 	} // namespace detail
 	
 	template <class T> struct add_pointer : decltype(detail::try_add_pointer<T>(0)) {};
-	
-	template <class T> struct add_lvalue_reference : decltype(detail::try_add_lvalue_reference<T>(0)) {};
-	template <class T> struct add_rvalue_reference : decltype(detail::try_add_rvalue_reference<T>(0)) {};
+	template <class T> using add_pointer_t = typename add_pointer<T>::value;
 
+	template <class T> struct add_lvalue_reference : decltype(detail::try_add_lvalue_reference<T>(0)) {};
+	template <class T> using add_lvalue_reference_t = typename add_lvalue_reference<T>::value;
+
+	template <class T> struct add_rvalue_reference : decltype(detail::try_add_rvalue_reference<T>(0)) {};
+	template <class T> using add_rvalue_reference_t = typename add_rvalue_reference<T>::value; 
 
 	template<class T> struct add_cv { using type = const volatile T; };
+	template<class T> using add_cv_t = typename add_cv<T>::value;
+
 	template<class T> struct add_const { using type = const T; };
+	template<class T> using add_const_t = typename add_const<T>::value;
+
 	template<class T> struct add_volatile { using type = volatile T; };
+	template<class T> using add_volatile_t = typename add_volatile<T>::value;
+
 
 	/* is type group */
 
@@ -129,6 +158,9 @@ namespace tinystd {
 	template<class T> struct is_array<T[]> : true_type {};    
 	template<class T, size_t N> struct is_array<T[N]> : true_type {};
 
+	template<class T> 
+	bool is_array_v = is_array<T>::value;
+
 	template<class T> struct is_enum : bool_constant<__is_enum(T)> {};
 	template<typename T> struct is_union : bool_constant<__is_union(T)> {};
 
@@ -159,11 +191,6 @@ namespace tinystd {
 	template<class T, class U> struct is_member_pointer_helper<T U::*> : true_type {};
 	template<class T> struct is_member_pointer : is_member_pointer_helper<typename remove_cv<T>::type> {};
 
-	// template<class T> struct is_member_function_pointer_helper : false_type {};
-	// template<class T, class U> struct is_member_function_pointer_helper<T U::*> : is_function<T> {};
-	// template<class T> struct is_member_function_pointer : is_member_function_pointer_helper<typename remove_cv<T>::type> {};
-	// template<class T> struct is_member_object_pointer : bool_constant<is_member_pointer<T>::value && !is_member_function_pointer<T>::value> {};
-
 	template<class T> struct is_lvalue_reference     : false_type {};
 	template<class T> struct is_lvalue_reference<T&> : true_type {};
 
@@ -172,6 +199,9 @@ namespace tinystd {
 
 
 	template<class T> struct is_arithmetic : bool_constant<is_integral<T>::value || is_floating_point<T>::value> {};
+	
+	template<class T> bool is_arithmetic_v = is_arithmetic<T>::value;
+
 	template<class T> struct is_fundamental : bool_constant<is_arithmetic<T>::value || is_void<T>::value  || is_null_pointer<T>::value> {};
 	template<class T> struct is_scalar : integral_constant<bool,
 						is_arithmetic<T>::value     ||
@@ -186,6 +216,8 @@ namespace tinystd {
 	template <class T> struct is_reference<T&>  : true_type {};
 	template <class T> struct is_reference<T&&> : true_type {};
 	
+
+	template <class T> bool is_reference_v = is_reference<T>::value;
 	/* is qualifier group */
 	template<class T> struct is_const			: false_type {};
 	template<class T> struct is_const<const T>	: true_type {};
@@ -223,9 +255,7 @@ namespace tinystd {
 	/* conditional compiling */
 
 	template<bool B, class T = void> struct enable_if {};
-	template<class T> struct enable_if<true, T> { using type = T; };
-
-	
+	template<class T> struct enable_if<true, T> { using type = T; };	
 } // namespace Types
 
 

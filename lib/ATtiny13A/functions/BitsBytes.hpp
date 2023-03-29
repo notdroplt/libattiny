@@ -24,13 +24,13 @@ inline constexpr T bitSet(const T x, const T n) noexcept {
 }
 
 template <typename T = int>
-inline constexpr T bitWrite(const T x, const T n, const bool b) {
-	return x | b ? _BV(n) : 0;
+inline constexpr T bitWrite(const T x, const T n, const bool b) noexcept {
+	return x | (b ? _BV(n) : 0);
 }
 
 template <typename T = int>
 inline constexpr T highByte(const T x) {
-	return x >> 8;
+	return x >> (sizeof(T) * 8 - 8);
 }
 
 template <typename T = int>

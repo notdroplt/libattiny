@@ -31,7 +31,7 @@ namespace attiny
 
     
     public:
-        SoftwareSerial(T /* args */);
+        SoftwareSerial(const uint8_t pinTx, const uint8_t pinRx) 
     };
     
 } // namespace attiny

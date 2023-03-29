@@ -34,7 +34,7 @@ namespace attiny
     }
 
     template<typename T = int>
-    inline constexpr T pow(T base, int exp) {
+    inline T pow(T base, int exp) {
         if(exp < 0)
             return 1 / pow(base, abs(exp));
 
@@ -54,7 +54,7 @@ namespace attiny
     constexpr double pi_2 = 6.283185307;
 
     template <typename T = float>
-    inline constexpr T fmod(const T value, const T mod) {
+    inline T fmod(const T value, const T mod) {
         const auto sign = value < 0;
         T x = abs(value);
 
@@ -68,7 +68,7 @@ namespace attiny
     /* all of them are expanded from 0->3 mainly for the amount of calculations it takes for just one */
 
     template<typename T = float>
-    inline constexpr const T sin(const T value) {
+    inline const T sin(const T value) {
         /**
          * evaluating sine function up to n gives
          * 
@@ -85,7 +85,7 @@ namespace attiny
     }
 
 
-    inline constexpr double cos(const double value) {
+    inline double cos(const double value) {
         /**
          * 
          * evaluating cosine function up to n gives:
@@ -100,7 +100,7 @@ namespace attiny
         return 1 - pow(x, 2) * (360 - 30 * pow(x, 2) + pow(x, 4)) / 720;
     }
 
-    inline constexpr double tan(const double value) {
+    inline double tan(const double value) {
         /**
          * using tan(x) = sin(x) / cos(x)
          * 

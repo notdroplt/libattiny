@@ -6,9 +6,13 @@
 #define HIGH true
 #define LOW false
 
-// Arduino types
-using boolean = bool; // is this Java 
+/*!< boolean type*/
+using boolean = bool; 
+
+/*!< byte type*/
 using byte = uint8_t;
+
+/*!< word type*/
 using word = uint16_t;
 
 #include "functions/AnalogIO.hpp"
@@ -18,10 +22,16 @@ using word = uint16_t;
 #include "functions/Math.hpp"
 #include "functions/SoftwareSerial.hpp"
 
+/*!< enable interrupts */
 #define interrupts() asm volatile("sei")
+
+/*!< disable interrupts */
 #define noInterrrupts() asm volatile("cli")
 
+/*!< pause the mcu for `time` millisseconds */
 #define delay(time) _delay_ms(time)
+
+/*!< pause the mcu for `time` microsseconds */
 #define delay_microsseconds(time) _delay_us(time)
 
 #endif

@@ -82,7 +82,7 @@ namespace attiny {
 
     template<int modes> uint8_t shiftIn(const Pins pin, const uint8_t clock) noexcept;
     template<> uint8_t shiftIn<MostSignificantBitFirst>(const Pins pin, const uint8_t clock) noexcept {
-        uint8_t value, i = 7;
+        uint8_t value = 0, i = 7;
         while (i--) {
             value = (value << 1) | digitalRead(pin);
 
@@ -94,7 +94,7 @@ namespace attiny {
     }
 
     template<> uint8_t shiftIn<LeastSignificantBitFirst>(const Pins pin, const uint8_t clock) noexcept {
-        uint8_t value, i = 0;
+        uint8_t value = 0, i = 0;
         while (i < 8) {
             value |= digitalRead(pin) << i;
 

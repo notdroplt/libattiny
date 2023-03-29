@@ -1,0 +1,3 @@
+[submodule "lib/ATtiny13A/ArduinoCore-avr"]
+	path = lib/ATtiny13A/arduino-core-rewrite
+	url = https://github.com/arduino/ArduinoCore-avr
